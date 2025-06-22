@@ -41,19 +41,24 @@ export default function Game() {
     }
 
     return (
-      <li key={move}>
-        {move !== currentMove ? (
-          <button onClick={() => jumpTo(move, moves)}>{description}</button>
-        ) : (
-          <span>{description}</span>
-        )}
-      </li>
+      <button
+        key={move}
+        type="button"
+        className={[
+          "list-group-item list-group-item-action",
+          move === currentMove ? "disabled" : "",
+        ].join(" ")}
+        onClick={() => jumpTo(move, moves)}
+      >
+        <h4>{description}</h4>
+        <small>And some small print.</small>
+      </button>
     );
   });
 
   return (
-    <div className="game">
-      <div className="game-board">
+    <div className="game row justify-content-evenly">
+      <div className="game-board col">
         <Board
           xIsNext={xIsNext}
           isInHistory={isInHistory}
@@ -61,12 +66,12 @@ export default function Game() {
           onPlay={handlePlay}
         />
       </div>
-      <div className="game">
-        <div className="game-info">
-          <button onClick={handleSort}>
-            Reorder to: {isAscending ? "Descending" : "Ascending"}
-          </button>
-          <ul>{isAscending ? moves : moves.reverse()}</ul>
+      <div className="game-info col">
+        <button className="btn btn-info mb-3" onClick={handleSort}>
+          Reorder to: {isAscending ? "Descending" : "Ascending"}
+        </button>
+        <div className="list-group">
+          {isAscending ? moves : moves.reverse()}
         </div>
       </div>
     </div>
