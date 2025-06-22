@@ -31,6 +31,8 @@ export default function Board({ xIsNext, isInHistory, squares, onPlay }) {
 
   if (winner !== null) {
     status = "Winner is: " + winner.winnerSquares;
+  } else if (!squares.includes(null)) {
+    status = "It`s a draw!";
   } else {
     status = "Next player is: " + (xIsNext ? "X" : "O");
   }
@@ -46,6 +48,7 @@ export default function Board({ xIsNext, isInHistory, squares, onPlay }) {
             <Square
               key={index}
               value={squares[index]}
+              isDraw={!squares.includes(null)}
               isHighlighted={
                 highlightedSquares.includes(index) && isInHistory !== true
               }

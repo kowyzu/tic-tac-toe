@@ -91,5 +91,11 @@ body {
 
 /* My styles */
 .highlighted{
-  background-color: #B0DB9C;
+  background-color: #ECFAE5;
+  color: #347433;
+}
+
+.draw{
+  background-color: #F8FAFC;
+  color: #9AA6B2;
 }
