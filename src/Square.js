@@ -10,8 +10,8 @@ export default function Square({
     <button
       className={[
         "square",
-        isHighlighted === true ? "highlighted" : "",
-        isDraw === true ? "draw" : "",
+        isHighlighted ? "highlighted" : "",
+        isDraw ? "draw" : "",
       ].join(" ")}
       onClick={onSquareClick}
     >
