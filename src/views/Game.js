@@ -30,8 +30,10 @@ export default function Game() {
     setIsAscending(!isAscending);
   }
 
+  /**
+   * TODO => use class PlayerStep instead of arrays
+   */
   let newStep = new PlayerStep("X", 2, 1);
-  console.log(newStep);
 
   const moves = history.map((squares, move) => {
     let description;
