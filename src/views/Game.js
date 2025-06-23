@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Board from "../components/Board";
+import { PlayerStep } from "../objects/PlayerStep";
 
 export default function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
@@ -29,30 +30,27 @@ export default function Game() {
     setIsAscending(!isAscending);
   }
 
+  let newStep = new PlayerStep("X", 2, 1);
+  console.log(newStep);
+
   const moves = history.map((squares, move) => {
     let description;
     let position;
 
-    console.log(
-      "TODO handle comparing these two arrays if possible => need to get position"
-    );
     if (move === currentMove) {
       description = "You are at move # " + move;
-      position = currentMove;
-      // console.log(history[move]);
-      // console.log(history[move - 1]);
-      if (history[move - 1] !== undefined) {
-        const changed = history[move - 1].map((comparedMove) => {
-          const diff = history[move].map((myMove) => {
-            if (comparedMove === myMove) {
-              return true;
-            } else {
-              return false;
-            }
-          });
-        });
-        console.log(changed);
-      }
+      const previousSteps =
+        history[move - 1] === undefined ? [] : history[move - 1];
+      const currentSteps = history[move];
+      const differenceSteps = [];
+
+      currentSteps.forEach((playerSymbol, place) => {
+        if (previousSteps[place] !== playerSymbol) {
+          differenceSteps[place] = playerSymbol;
+        }
+      });
+
+      position = "";
     } else if (move > 0) {
       description = "Go to move # " + move;
     } else {
@@ -94,9 +92,6 @@ export default function Game() {
             {isAscending ? moves : moves.reverse()}
           </div>
         </div>
-      </div>
-      <div className="row justify-content-center text-center mt-5">
-        <h1>Score Table TODO</h1>
       </div>
     </>
   );

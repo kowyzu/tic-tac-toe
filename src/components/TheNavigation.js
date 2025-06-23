@@ -1,8 +1,14 @@
+import { NavLink } from "react-router";
+
 export default function TheNavigation() {
   return (
-    <div>
-      <h1>Hello</h1>
-      <p>Im your navigation</p>
-    </div>
+    <nav className="navbar bg-body-tertiary justify-content-start mb-5 px-2">
+      <NavLink className="navigation-link" to="/">
+        The Game
+      </NavLink>
+      <NavLink className="ms-5 navigation-link" to="/leaderboard">
+        Leaderboards
+      </NavLink>
+    </nav>
   );
 }

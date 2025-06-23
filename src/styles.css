@@ -99,3 +99,13 @@ body {
   background-color: #F8FAFC;
   color: #9AA6B2;
 }
+
+.navigation-link{
+  color: purple;
+  font-style: normal;
+  text-decoration: none;
+}
+
+.navigation-link.active, .navigation-link:hover {
+  color: rgb(221, 132, 147);
+}
