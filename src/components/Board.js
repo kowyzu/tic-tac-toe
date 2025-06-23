@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { calculateWinner } from "./functions";
+import { calculateWinner } from "../functions";
 import Square from "./Square";
 
 export default function Board({ xIsNext, isInHistory, squares, onPlay }) {
