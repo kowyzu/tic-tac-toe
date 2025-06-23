@@ -31,9 +31,28 @@ export default function Game() {
 
   const moves = history.map((squares, move) => {
     let description;
+    let position;
 
+    console.log(
+      "TODO handle comparing these two arrays if possible => need to get position"
+    );
     if (move === currentMove) {
       description = "You are at move # " + move;
+      position = currentMove;
+      // console.log(history[move]);
+      // console.log(history[move - 1]);
+      if (history[move - 1] !== undefined) {
+        const changed = history[move - 1].map((comparedMove) => {
+          const diff = history[move].map((myMove) => {
+            if (comparedMove === myMove) {
+              return true;
+            } else {
+              return false;
+            }
+          });
+        });
+        console.log(changed);
+      }
     } else if (move > 0) {
       description = "Go to move # " + move;
     } else {
@@ -51,7 +70,7 @@ export default function Game() {
         onClick={() => jumpTo(move, moves)}
       >
         <h4>{description}</h4>
-        <small>And some small print.</small>
+        <small>{position}</small>
       </button>
     );
   });
