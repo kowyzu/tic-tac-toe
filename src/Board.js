@@ -63,7 +63,8 @@ export default function Board({ xIsNext, isInHistory, squares, onPlay }) {
 
   return (
     <>
-      <div className="status">{status}</div>
+      <h1 className="mb-2">Match details TODO</h1>
+      <h2 className="mb-4">{status}</h2>
       {rowsToDisplay}
     </>
   );

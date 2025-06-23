@@ -57,23 +57,28 @@ export default function Game() {
   });
 
   return (
-    <div className="game row justify-content-evenly">
-      <div className="game-board col">
-        <Board
-          xIsNext={xIsNext}
-          isInHistory={isInHistory}
-          squares={currentSquares}
-          onPlay={handlePlay}
-        />
-      </div>
-      <div className="game-info col">
-        <button className="btn btn-info mb-3" onClick={handleSort}>
-          Reorder to: {isAscending ? "Descending" : "Ascending"}
-        </button>
-        <div className="list-group">
-          {isAscending ? moves : moves.reverse()}
+    <>
+      <div className="game row justify-content-center">
+        <div className="game-board col-6">
+          <Board
+            xIsNext={xIsNext}
+            isInHistory={isInHistory}
+            squares={currentSquares}
+            onPlay={handlePlay}
+          />
+        </div>
+        <div className="game-info col-4">
+          <button className="btn btn-info mb-3" onClick={handleSort}>
+            Reorder to: {isAscending ? "Descending" : "Ascending"}
+          </button>
+          <div className="list-group">
+            {isAscending ? moves : moves.reverse()}
+          </div>
         </div>
       </div>
-    </div>
+      <div className="row justify-content-center text-center mt-5">
+        <h1>Score Table TODO</h1>
+      </div>
+    </>
   );
 }
