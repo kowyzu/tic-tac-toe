@@ -3,6 +3,8 @@ export default function Square({
   onSquareClick,
   isDraw,
   isHighlighted,
+  row,
+  numberPosition,
 }) {
   return (
     <button

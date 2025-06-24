@@ -4,20 +4,28 @@ import { PlayerStep } from "../objects/PlayerStep";
 
 export default function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
-  // OOP of history
+  // !OOP of history state => TODO
   const [stepsHistory, setStepsHistory] = [];
   const [currentMove, setCurrentMove] = useState(0);
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
+  // !OOP of currentSquares
+  const currentStep = history[currentMove];
   const [isAscending, setIsAscending] = useState(true);
   const [isInHistory, setIsInHistory] = useState(false);
 
-  function handlePlay(nextSquares) {
+  function handlePlay(nextSquares, currentStep) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
     setHistory(nextHistory);
     setCurrentMove(nextHistory.length - 1);
+
+    //OOP
+    // setStepsHistory(stepsHistory.push(currentStep));
   }
 
+  /**
+   * Display chosen previous history move
+   */
   function jumpTo(nextMove, moves) {
     setCurrentMove(nextMove);
 
@@ -28,6 +36,9 @@ export default function Game() {
     }
   }
 
+  /**
+   * Sort history moves list in descending/ascending order
+   */
   function handleSort() {
     setIsAscending(!isAscending);
   }
@@ -37,6 +48,9 @@ export default function Game() {
    */
   let newStep = new PlayerStep("X", 2, 1);
 
+  /**
+   * Display history of game
+   */
   const moves = history.map((squares, move) => {
     let description;
     let position;
@@ -77,6 +91,9 @@ export default function Game() {
     );
   });
 
+  /**
+   * Display the whole Game section
+   */
   return (
     <>
       <div className="game row justify-content-center">
@@ -85,6 +102,7 @@ export default function Game() {
             xIsNext={xIsNext}
             isInHistory={isInHistory}
             squares={currentSquares}
+            currentStep={currentStep}
             onPlay={handlePlay}
           />
         </div>

@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { calculateWinner } from "../services/functions";
 import Square from "./Square";
+import { PlayerStep } from "../objects/PlayerStep";
 
 export default function Board({ xIsNext, isInHistory, squares, onPlay }) {
   const [highlightedSquares, setHighlightedSquares] = useState([]);
   const playerO = "O";
   const playerX = "X";
 
-  function handleClick(i) {
+  function handleClick(i, row, numberPosition) {
+    console.log(row);
+    console.log(numberPosition);
     if (isInHistory) {
       return;
     }
@@ -19,12 +22,15 @@ export default function Board({ xIsNext, isInHistory, squares, onPlay }) {
     const nextSquares = squares.slice();
     nextSquares[i] = xIsNext ? playerX : playerO;
 
+    //OOP preparation
+    let currentStep = new PlayerStep("X", 2, 1, 8);
+
     const winnerResult = calculateWinner(nextSquares);
     setHighlightedSquares(
       winnerResult !== null ? winnerResult.winnerLines : []
     );
 
-    onPlay(nextSquares);
+    onPlay(nextSquares, currentStep);
   }
 
   const winner = calculateWinner(squares);
@@ -40,20 +46,22 @@ export default function Board({ xIsNext, isInHistory, squares, onPlay }) {
 
   const rowsToDisplay = [0, 1, 2].map((rowIndex) => {
     const start = rowIndex * 3;
+    const row = rowIndex + 1;
     return (
       <div key={rowIndex} className="board-row">
         {[0, 1, 2].map((colIndex) => {
           const index = start + colIndex;
+          const numberPosition = index;
 
           return (
             <Square
               key={index}
               value={squares[index]}
               isDraw={!squares.includes(null) && winner === null}
-              isHighlighted={
-                highlightedSquares.includes(index) && isInHistory !== true
-              }
-              onSquareClick={() => handleClick(index)}
+              isHighlighted={highlightedSquares.includes(index) && !isInHistory}
+              onSquareClick={() => handleClick(index, row, numberPosition)}
+              row={row}
+              numberPosition={numberPosition}
             />
           );
         })}
