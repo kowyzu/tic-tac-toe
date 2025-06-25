@@ -8,7 +8,7 @@ export default function Board({ xIsNext, isInHistory, squares, onPlay }) {
   const playerO = "O";
   const playerX = "X";
 
-  function handleClick(i, row, column, positionNumber) {
+  function handleSquareClick(i, row, column, positionNumber) {
     if (isInHistory) {
       return;
     }
@@ -65,7 +65,7 @@ export default function Board({ xIsNext, isInHistory, squares, onPlay }) {
               isDraw={!squares.includes(null) && winner === null}
               isHighlighted={highlightedSquares.includes(index) && !isInHistory}
               onSquareClick={() =>
-                handleClick(index, row, column, positionNumber)
+                handleSquareClick(index, row, column, positionNumber)
               }
             />
           );

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Board from "../components/Board";
+import StepDetail from "../components/StepDetail";
 import { PlayerStep } from "../objects/PlayerStep";
 
 export default function Game() {
@@ -7,18 +8,21 @@ export default function Game() {
   // !OOP of history state => TODO
   const gameStartStep = new PlayerStep("", null, null, null);
   const [stepsHistory, setStepsHistory] = useState([gameStartStep]);
-  const [currentMove, setCurrentMove] = useState(0);
-  const xIsNext = currentMove % 2 === 0;
-  const currentSquares = history[currentMove];
+  const [currentMoveNumber, setCurrentMoveNumber] = useState(0);
+  const xIsNext = currentMoveNumber % 2 === 0;
+  const currentSquares = history[currentMoveNumber];
   // !OOP of currentSquares
-  const currentStep = stepsHistory[currentMove];
+  const currentStep = stepsHistory[currentMoveNumber];
   const [isAscending, setIsAscending] = useState(true);
   const [isInHistory, setIsInHistory] = useState(false);
 
   function handlePlay(nextSquares, currentStep) {
-    const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+    const nextHistory = [
+      ...history.slice(0, currentMoveNumber + 1),
+      nextSquares,
+    ];
     setHistory(nextHistory);
-    setCurrentMove(nextHistory.length - 1);
+    setCurrentMoveNumber(nextHistory.length - 1);
 
     //OOP
 
@@ -29,7 +33,7 @@ export default function Game() {
    * Display chosen previous history move
    */
   function jumpTo(nextMove, moves) {
-    setCurrentMove(nextMove);
+    setCurrentMoveNumber(nextMove);
 
     if (nextMove !== moves.length - 1) {
       setIsInHistory(true);
@@ -50,20 +54,9 @@ export default function Game() {
    */
   const moves = history.map((squares, move) => {
     let description;
-    let displayedStepPosition;
 
-    if (move === currentMove) {
+    if (move === currentMoveNumber) {
       description = "You are at move # " + move;
-      if (move === 0) {
-        displayedStepPosition = "";
-        description = "You are at game start.";
-      } else {
-        displayedStepPosition =
-          "Look at row: " +
-          currentStep.rowPosition +
-          " and column: " +
-          currentStep.columnPosition;
-      }
     } else if (move > 0) {
       description = "Look at move # " + move;
     } else {
@@ -71,18 +64,15 @@ export default function Game() {
     }
 
     return (
-      <button
+      <StepDetail
         key={move}
-        type="button"
-        className={[
-          "list-group-item list-group-item-action",
-          move === currentMove ? "disabled" : "",
-        ].join(" ")}
-        onClick={() => jumpTo(move, moves)}
-      >
-        <h4>{description}</h4>
-        {displayedStepPosition ? <small>{displayedStepPosition}</small> : ""}
-      </button>
+        stepsHistory={stepsHistory}
+        currentStep={currentStep}
+        currentMoveNumber={currentMoveNumber}
+        description={description}
+        move={move}
+        onStepDetailClick={() => jumpTo()}
+      />
     );
   });
 
@@ -107,7 +97,8 @@ export default function Game() {
             Reorder to: {isAscending ? "Descending" : "Ascending"}
           </button>
           <div className="list-group">
-            {isAscending ? moves : moves.reverse()}
+            {moves}
+            {/* {isAscending ? moves : moves.reverse()} */}
           </div>
         </div>
       </div>
