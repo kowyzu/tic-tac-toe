@@ -5,12 +5,13 @@ import { PlayerStep } from "../objects/PlayerStep";
 export default function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   // !OOP of history state => TODO
-  const [stepsHistory, setStepsHistory] = [];
+  const gameStartStep = new PlayerStep("", null, null, null);
+  const [stepsHistory, setStepsHistory] = useState([gameStartStep]);
   const [currentMove, setCurrentMove] = useState(0);
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
   // !OOP of currentSquares
-  const currentStep = history[currentMove];
+  const currentStep = stepsHistory[currentMove];
   const [isAscending, setIsAscending] = useState(true);
   const [isInHistory, setIsInHistory] = useState(false);
 
@@ -20,7 +21,8 @@ export default function Game() {
     setCurrentMove(nextHistory.length - 1);
 
     //OOP
-    // setStepsHistory(stepsHistory.push(currentStep));
+
+    setStepsHistory([...stepsHistory, currentStep]);
   }
 
   /**
@@ -44,35 +46,28 @@ export default function Game() {
   }
 
   /**
-   * TODO => use class PlayerStep instead of arrays
-   */
-  let newStep = new PlayerStep("X", 2, 1);
-
-  /**
    * Display history of game
    */
   const moves = history.map((squares, move) => {
     let description;
-    let position;
+    let displayedStepPosition;
 
     if (move === currentMove) {
       description = "You are at move # " + move;
-      const previousSteps =
-        history[move - 1] === undefined ? [] : history[move - 1];
-      const currentSteps = history[move];
-      const differenceSteps = [];
-
-      currentSteps.forEach((playerSymbol, place) => {
-        if (previousSteps[place] !== playerSymbol) {
-          differenceSteps[place] = playerSymbol;
-        }
-      });
-
-      position = "";
+      if (move === 0) {
+        displayedStepPosition = "";
+        description = "You are at game start.";
+      } else {
+        displayedStepPosition =
+          "Look at row: " +
+          currentStep.rowPosition +
+          " and column: " +
+          currentStep.columnPosition;
+      }
     } else if (move > 0) {
-      description = "Go to move # " + move;
+      description = "Look at move # " + move;
     } else {
-      description = "Go to game start";
+      description = "Look at game start";
     }
 
     return (
@@ -86,7 +81,7 @@ export default function Game() {
         onClick={() => jumpTo(move, moves)}
       >
         <h4>{description}</h4>
-        <small>{position}</small>
+        {displayedStepPosition ? <small>{displayedStepPosition}</small> : ""}
       </button>
     );
   });
@@ -107,6 +102,7 @@ export default function Game() {
           />
         </div>
         <div className="game-info col-4">
+          <h2>Game history</h2>
           <button className="btn btn-info mb-3" onClick={handleSort}>
             Reorder to: {isAscending ? "Descending" : "Ascending"}
           </button>

@@ -1,8 +1,8 @@
 export class PlayerStep {
-  constructor(playerSymbol, rowPosition, columnPosition, numberPosition) {
+  constructor(playerSymbol, rowPosition, columnPosition, positionNumber) {
     this.playerSymbol = playerSymbol;
     this.rowPosition = rowPosition;
     this.columnPosition = columnPosition;
-    this.numberPosition = numberPosition;
+    this.positionNumber = positionNumber;
   }
 }

@@ -8,9 +8,7 @@ export default function Board({ xIsNext, isInHistory, squares, onPlay }) {
   const playerO = "O";
   const playerX = "X";
 
-  function handleClick(i, row, numberPosition) {
-    console.log(row);
-    console.log(numberPosition);
+  function handleClick(i, row, column, positionNumber) {
     if (isInHistory) {
       return;
     }
@@ -23,7 +21,13 @@ export default function Board({ xIsNext, isInHistory, squares, onPlay }) {
     nextSquares[i] = xIsNext ? playerX : playerO;
 
     //OOP preparation
-    let currentStep = new PlayerStep("X", 2, 1, 8);
+    const playerSymbol = xIsNext ? playerX : playerO;
+    const currentStep = new PlayerStep(
+      playerSymbol,
+      row,
+      column,
+      positionNumber
+    );
 
     const winnerResult = calculateWinner(nextSquares);
     setHighlightedSquares(
@@ -49,9 +53,10 @@ export default function Board({ xIsNext, isInHistory, squares, onPlay }) {
     const row = rowIndex + 1;
     return (
       <div key={rowIndex} className="board-row">
-        {[0, 1, 2].map((colIndex) => {
-          const index = start + colIndex;
-          const numberPosition = index;
+        {[0, 1, 2].map((columnIndex) => {
+          const index = start + columnIndex;
+          const positionNumber = index;
+          const column = columnIndex + 1;
 
           return (
             <Square
@@ -59,9 +64,9 @@ export default function Board({ xIsNext, isInHistory, squares, onPlay }) {
               value={squares[index]}
               isDraw={!squares.includes(null) && winner === null}
               isHighlighted={highlightedSquares.includes(index) && !isInHistory}
-              onSquareClick={() => handleClick(index, row, numberPosition)}
-              row={row}
-              numberPosition={numberPosition}
+              onSquareClick={() =>
+                handleClick(index, row, column, positionNumber)
+              }
             />
           );
         })}
