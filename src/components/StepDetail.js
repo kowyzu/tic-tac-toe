@@ -1,23 +1,28 @@
 export default function StepDetail({
   stepsHistory,
-  currentStep,
   currentMoveNumber,
+  moveNumber,
   description,
-  move,
   onStepDetailClick,
 }) {
+  const stepPlayerSymbol = stepsHistory[moveNumber].playerSymbol;
+  const stepRowPosition = stepsHistory[moveNumber].rowPosition;
+  const stepColumnPosition = stepsHistory[moveNumber].columnPosition;
+
   return (
     <button
-      key={move}
       type="button"
       className={[
         "list-group-item list-group-item-action",
-        move === currentMoveNumber ? "disabled" : "",
+        moveNumber === currentMoveNumber ? "disabled" : "",
       ].join(" ")}
-      // onClick={onStepDetailClick(currentMoveNumber, moves)}
+      onClick={onStepDetailClick}
     >
-      {/* <h4>{description}</h4>
-      <small>row</small> */}
+      <h4>{description}</h4>
+      <small>
+        Player {stepPlayerSymbol} placed a move in row {stepRowPosition}, column{" "}
+        {stepColumnPosition}
+      </small>
     </button>
   );
 }

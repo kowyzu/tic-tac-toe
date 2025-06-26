@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Board from "../components/Board";
 import StepDetail from "../components/StepDetail";
+import StepDetailList from "../components/StepDetailList";
 import { PlayerStep } from "../objects/PlayerStep";
 
 export default function Game() {
@@ -52,29 +53,29 @@ export default function Game() {
   /**
    * Display history of game
    */
-  const moves = history.map((squares, move) => {
-    let description;
+  // const moves = history.map((squares, move) => {
+  //   let description;
 
-    if (move === currentMoveNumber) {
-      description = "You are at move # " + move;
-    } else if (move > 0) {
-      description = "Look at move # " + move;
-    } else {
-      description = "Look at game start";
-    }
+  //   if (move === currentMoveNumber) {
+  //     description = "You are at move # " + move;
+  //   } else if (move > 0) {
+  //     description = "Look at move # " + move;
+  //   } else {
+  //     description = "Look at game start";
+  //   }
 
-    return (
-      <StepDetail
-        key={move}
-        stepsHistory={stepsHistory}
-        currentStep={currentStep}
-        currentMoveNumber={currentMoveNumber}
-        description={description}
-        move={move}
-        onStepDetailClick={() => jumpTo()}
-      />
-    );
-  });
+  //   return (
+  //     <StepDetail
+  //       key={move}
+  //       stepsHistory={stepsHistory}
+  //       currentStep={currentStep}
+  //       currentMoveNumber={currentMoveNumber}
+  //       description={description}
+  //       move={move}
+  //       onStepDetailClick={() => jumpTo()}
+  //     />
+  //   );
+  // });
 
   /**
    * Display the whole Game section
@@ -96,10 +97,12 @@ export default function Game() {
           <button className="btn btn-info mb-3" onClick={handleSort}>
             Reorder to: {isAscending ? "Descending" : "Ascending"}
           </button>
-          <div className="list-group">
-            {moves}
-            {/* {isAscending ? moves : moves.reverse()} */}
-          </div>
+          <StepDetailList
+            stepsHistory={stepsHistory}
+            currentStep={currentStep}
+            currentMoveNumber={currentMoveNumber}
+            onStepDetailClick={jumpTo}
+          />
         </div>
       </div>
     </>
