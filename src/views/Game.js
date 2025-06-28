@@ -14,7 +14,6 @@ export default function Game() {
   const currentSquares = history[currentMoveNumber];
   // !OOP of currentSquares
   const currentStep = stepsHistory[currentMoveNumber];
-  const [isAscending, setIsAscending] = useState(true);
   const [isInHistory, setIsInHistory] = useState(false);
 
   function handlePlay(nextSquares, currentStep) {
@@ -44,40 +43,6 @@ export default function Game() {
   }
 
   /**
-   * Sort history moves list in descending/ascending order
-   */
-  function handleSort() {
-    setIsAscending(!isAscending);
-  }
-
-  /**
-   * Display history of game
-   */
-  // const moves = history.map((squares, move) => {
-  //   let description;
-
-  //   if (move === currentMoveNumber) {
-  //     description = "You are at move # " + move;
-  //   } else if (move > 0) {
-  //     description = "Look at move # " + move;
-  //   } else {
-  //     description = "Look at game start";
-  //   }
-
-  //   return (
-  //     <StepDetail
-  //       key={move}
-  //       stepsHistory={stepsHistory}
-  //       currentStep={currentStep}
-  //       currentMoveNumber={currentMoveNumber}
-  //       description={description}
-  //       move={move}
-  //       onStepDetailClick={() => jumpTo()}
-  //     />
-  //   );
-  // });
-
-  /**
    * Display the whole Game section
    */
   return (
@@ -93,10 +58,6 @@ export default function Game() {
           />
         </div>
         <div className="game-info col-4">
-          <h2>Game history</h2>
-          <button className="btn btn-info mb-3" onClick={handleSort}>
-            Reorder to: {isAscending ? "Descending" : "Ascending"}
-          </button>
           <StepDetailList
             stepsHistory={stepsHistory}
             currentStep={currentStep}

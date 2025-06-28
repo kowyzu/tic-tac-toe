@@ -1,3 +1,4 @@
+import { useState } from "react";
 import StepDetail from "./StepDetail";
 
 export default function StepDetailList({
@@ -6,18 +7,27 @@ export default function StepDetailList({
   currentMoveNumber,
   onStepDetailClick,
 }) {
+  const [isAscending, setIsAscending] = useState(true);
+
+  /**
+   * Sort history moves list in descending/ascending order
+   */
+  function handleSort() {
+    setIsAscending(!isAscending);
+  }
+
   /**
    * Display history of game
    */
   const moves = stepsHistory.map((step, moveNumber) => {
-    let description;
+    let stepDetailHeading;
 
     if (moveNumber === currentMoveNumber) {
-      description = "You are at move # " + moveNumber;
+      stepDetailHeading = "You are at move # " + moveNumber;
     } else if (moveNumber > 0) {
-      description = "Look at move # " + moveNumber;
+      stepDetailHeading = "Look at move # " + moveNumber;
     } else {
-      description = "Look at game start";
+      stepDetailHeading = "Look at game start";
     }
 
     return (
@@ -26,16 +36,19 @@ export default function StepDetailList({
         stepsHistory={stepsHistory}
         currentMoveNumber={currentMoveNumber}
         moveNumber={moveNumber}
-        description={description}
+        stepDetailHeading={stepDetailHeading}
         onStepDetailClick={() => onStepDetailClick(moveNumber, moves)}
       />
     );
   });
 
   return (
-    <div className="list-group">
-      {moves}
-      {/* {isAscending ? moves : moves.reverse()} */}
-    </div>
+    <>
+      <h2>Game history</h2>
+      <button className="btn btn-info mb-3" onClick={handleSort}>
+        Reorder to: {isAscending ? "Descending" : "Ascending"}
+      </button>
+      <div className="list-group">{isAscending ? moves : moves.reverse()}</div>
+    </>
   );
 }

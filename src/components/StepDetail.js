@@ -2,12 +2,23 @@ export default function StepDetail({
   stepsHistory,
   currentMoveNumber,
   moveNumber,
-  description,
+  stepDetailHeading,
   onStepDetailClick,
 }) {
   const stepPlayerSymbol = stepsHistory[moveNumber].playerSymbol;
   const stepRowPosition = stepsHistory[moveNumber].rowPosition;
   const stepColumnPosition = stepsHistory[moveNumber].columnPosition;
+  let stepDetailDescription = "";
+
+  if (moveNumber === currentMoveNumber && moveNumber !== 0) {
+    stepDetailDescription =
+      "Player " +
+      stepPlayerSymbol +
+      " placed a move in row " +
+      stepRowPosition +
+      ", column " +
+      stepColumnPosition;
+  }
 
   return (
     <button
@@ -18,11 +29,8 @@ export default function StepDetail({
       ].join(" ")}
       onClick={onStepDetailClick}
     >
-      <h4>{description}</h4>
-      <small>
-        Player {stepPlayerSymbol} placed a move in row {stepRowPosition}, column{" "}
-        {stepColumnPosition}
-      </small>
+      <h4>{stepDetailHeading}</h4>
+      <small>{stepDetailDescription !== "" ? stepDetailDescription : ""}</small>
     </button>
   );
 }
